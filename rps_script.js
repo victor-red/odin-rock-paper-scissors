@@ -59,7 +59,7 @@ function playRound(playerChoice, computerSelection){
         return
     }
     else{
-        console.log('PC ganhou, tô testando ainda porra.')
+        console.log('PC won, a better message will be added later.')
     }
 }
 
