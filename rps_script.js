@@ -2,6 +2,7 @@
 
 function getPlayerChoice(){
     let playerChoice = prompt('Make your selection: ')
+    console.log(playerChoice)
     return playerChoice
 }
 
@@ -12,55 +13,99 @@ function getComputerChoice(){
 
 }
 
-let playerChoice = getPlayerChoice();
-let computerChoice = getComputerChoice();
 
-function playRound(playerChoice, computerSelection){
+function playRound(){
 
+    let playerChoice = getPlayerChoice();
+    let computerChoice = getComputerChoice();
+    let playerSelectionNumber;
 
     // Handling player choices
     if(playerChoice == null){
-        console.log('Invalid selection.')
-        return
+        console.log('Invalid selection, try again.');
+        return null;
     }
     else if (playerChoice.toLowerCase() == 'rock'){
-        playerSelection = 1;
+        playerSelectionNumber = 1;
     }
     else if (playerChoice.toLowerCase() == 'paper'){
-        playerSelection = 2;
+        playerSelectionNumber = 2;
     }
     else if (playerChoice.toLowerCase() == 'scissors'){
-        playerSelection = 3;
+        playerSelectionNumber = 3;
     }
     else{
-        console.log('Invalid selection.')
-        return
+        console.log('Invalid selection, try again.')
+        return null;
     }
 
     // Tie scenario
 
-    if (playerSelection === computerSelection){
+    if (playerSelectionNumber == computerChoice){
         console.log('Tie! Try again.')
-        return
+        return null;
     }
 
     // Player wins scenarios
 
-    else if (playerSelection == 1 && computerSelection == 3){
+    else if (playerSelectionNumber == 1 && computerChoice == 3){
         console.log('You win! Rock beats Scissors.')
-        return
+        return true;
     }
-    else if (playerSelection == 2 && computerSelection == 1){
+    else if (playerSelectionNumber == 2 && computerChoice == 1){
         console.log('You win! Paper beats Rock.')
-        return
+        return true;
     }
-    else if (playerSelection == 3 && computerSelection == 2){
-        console.log('You win! Scissors beat Paper.')
-        return
+    else if (playerSelectionNumber == 3 && computerChoice == 2){
+        console.log('You win! Scissors beats Paper.')
+        return true;
     }
-    else{
-        console.log('PC won, a better message will be added later.')
+
+    //Computer wins scenarios
+    else if (playerSelectionNumber == 3 && computerChoice == 1){
+        console.log('You lose! Rock beats Scissors.')
+        return false;
+    }
+    else if (playerSelectionNumber == 1 && computerChoice == 2){
+        console.log('You lose! Paper beats Rock.')
+        return false;
+    }
+    else if (playerSelectionNumber == 2 && computerChoice == 3){
+        console.log('You lose! Scissors beats Paper.')
+        return false;
     }
 }
 
-playRound(playerChoice, computerChoice)
+function game(){
+    let gameEnd = false;
+    let playerScore = 0;
+    let computerScore = 0;
+    let result;
+
+    while (!gameEnd){
+
+        console.log('Player Score: ' + ' ' + playerScore + ' ' + 'Computer Score: ' + ' ' + computerScore );
+        result = playRound();
+
+        if (result !== null) {
+            if (result) {
+                playerScore += 1;
+                console.log(playerScore);
+            } else {
+                computerScore += 1;
+                console.log(computerScore);
+            }
+        }
+
+        if (playerScore == 5){
+            console.log ('You win the best of 5!')
+            gameEnd = true;
+        }
+        else if (computerScore == 5){
+            console.log ('You lose! Try again next time.')
+            gameEnd = true;
+        }
+    }
+}
+
+game();
