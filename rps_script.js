@@ -1,111 +1,112 @@
-// Choices: 1 = Rock, 2 = Paper, 3 = Scissors
+document.addEventListener('DOMContentLoaded', function(){
+    let btnRock = document.createElement('button');
+    let btnPaper = document.createElement('button');
+    let btnScissors = document.createElement('button');
+    let div = document.createElement('div');
 
-function getPlayerChoice(){
-    let playerChoice = prompt('Make your selection: ')
-    console.log(playerChoice)
-    return playerChoice
-}
+    div.appendChild(btnRock);
+    div.appendChild(btnPaper);
+    div.appendChild(btnScissors);
+
+    div.setAttribute('style', 'display: flex; gap: 16px; ')
+
+    btnRock.textContent = 'Rock';
+    btnPaper.textContent = 'Paper';
+    btnScissors.textContent = 'Scissors';
+
+    
+    btnRock.addEventListener('click',playerChoiceRock);
+    btnPaper.addEventListener('click', playerChoicePaper);
+    btnScissors.addEventListener('click', playerChoiceScissors);
+
+    let result = document.createElement('div');
+    document.body.appendChild(result);
+    let resultText = document.createElement('p');
+    result.appendChild(resultText);
+
+    document.body.appendChild(div);
+
+    // Choices: 1 = Rock, 2 = Paper, 3 = Scissors
 
 
-function getComputerChoice(){
-    let computerChoice = Math.floor(Math.random()*3) + 1;
-    return computerChoice;
-
-}
 
 
-function playRound(){
+    function getComputerChoice(){
+        let computerChoice = Math.floor(Math.random()*3) + 1;
+        return computerChoice;
 
-    let playerChoice = getPlayerChoice();
-    let computerChoice = getComputerChoice();
-    let playerSelectionNumber;
-
-    // Handling player choices
-    if(playerChoice == null){
-        console.log('Invalid selection, try again.');
-        return null;
-    }
-    else if (playerChoice.toLowerCase() == 'rock'){
-        playerSelectionNumber = 1;
-    }
-    else if (playerChoice.toLowerCase() == 'paper'){
-        playerSelectionNumber = 2;
-    }
-    else if (playerChoice.toLowerCase() == 'scissors'){
-        playerSelectionNumber = 3;
-    }
-    else{
-        console.log('Invalid selection, try again.')
-        return null;
     }
 
-    // Tie scenario
 
-    if (playerSelectionNumber == computerChoice){
-        console.log('Tie! Try again.')
-        return null;
-    }
+    function playRound(playerChoice){
 
-    // Player wins scenarios
 
-    else if (playerSelectionNumber == 1 && computerChoice == 3){
-        console.log('You win! Rock beats Scissors.')
-        return true;
-    }
-    else if (playerSelectionNumber == 2 && computerChoice == 1){
-        console.log('You win! Paper beats Rock.')
-        return true;
-    }
-    else if (playerSelectionNumber == 3 && computerChoice == 2){
-        console.log('You win! Scissors beats Paper.')
-        return true;
-    }
+        let computerChoice = getComputerChoice();
 
-    //Computer wins scenarios
-    else if (playerSelectionNumber == 3 && computerChoice == 1){
-        console.log('You lose! Rock beats Scissors.')
-        return false;
-    }
-    else if (playerSelectionNumber == 1 && computerChoice == 2){
-        console.log('You lose! Paper beats Rock.')
-        return false;
-    }
-    else if (playerSelectionNumber == 2 && computerChoice == 3){
-        console.log('You lose! Scissors beats Paper.')
-        return false;
-    }
-}
-
-function game(){
-    let gameEnd = false;
-    let playerScore = 0;
-    let computerScore = 0;
-    let result;
-
-    while (!gameEnd){
-
-        console.log('Player Score: ' + ' ' + playerScore + ' ' + 'Computer Score: ' + ' ' + computerScore );
-        result = playRound();
-
-        if (result !== null) {
-            if (result) {
-                playerScore += 1;
-                console.log(playerScore);
-            } else {
-                computerScore += 1;
-                console.log(computerScore);
-            }
+        // Handling player choices
+        if(playerChoice == null){
+            console.log('Invalid selection, try again.');
+            return null;
+        }
+        else if (playerChoice == 'rock'){
+            playerSelectionNumber = 1;
+        }
+        else if (playerChoice == 'paper'){
+            playerSelectionNumber = 2;
+        }
+        else if (playerChoice == 'scissors'){
+            playerSelectionNumber = 3;
+        }
+        else{
+            console.log('Invalid selection, try again.')
+            return null;
         }
 
-        if (playerScore == 5){
-            console.log ('You win the best of 5!')
-            gameEnd = true;
+        // Tie scenario
+
+        if (playerSelectionNumber == computerChoice){
+            resultText.textContent = 'Its a tie! Try again!';
+            return null;
         }
-        else if (computerScore == 5){
-            console.log ('You lose! Try again next time.')
-            gameEnd = true;
+
+        // Player wins scenarios
+
+        else if (playerSelectionNumber == 1 && computerChoice == 3){
+            resultText.textContent = 'You win! Rock beats Scissors!';
+        }
+        else if (playerSelectionNumber == 2 && computerChoice == 1){
+            resultText.textContent = 'You win! Paper beats Rock!';
+            return true;
+        }
+        else if (playerSelectionNumber == 3 && computerChoice == 2){
+            resultText.textContent = 'You win! Scissors beats Paper!';
+            return true;
+        }
+
+        //Computer wins scenarios
+        else if (playerSelectionNumber == 3 && computerChoice == 1){
+            resultText.textContent = 'You lose! Rock beats Scissors!';
+            return false;
+        }
+        else if (playerSelectionNumber == 1 && computerChoice == 2){
+            resultText.textContent = 'You lose! Paper beats Rock!';
+            return false;
+        }
+        else if (playerSelectionNumber == 2 && computerChoice == 3){
+            resultText.textContent = 'You lose! Scissors beats Paper!';
+            return false;
         }
     }
-}
 
-game();
+    function playerChoiceRock(){
+        return playRound('rock');
+    }
+
+    function playerChoiceScissors(){
+        return playRound('scissors');
+    }
+
+    function playerChoicePaper(){
+        return playRound('paper');
+    }
+})
